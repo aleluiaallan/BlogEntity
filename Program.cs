@@ -1,6 +1,7 @@
 ﻿using System;
 using BlogEntity.Data;
 using BlogEntity.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogEntity
 {
@@ -10,24 +11,32 @@ namespace BlogEntity
         {
             using (var context = new BlogDataContext())
             {
-                //CREATE
-                // var tag = new Tag { Name = "ASP.NET", Slug = "aspnet" };
-                // context.Tags.Add(tag);
-                // context.SaveChanges();
+                var user = new User
+                {
+                    Name = "André Baltieri",
+                    Slug = "andrebaltieri",
+                    Email = "andre@balta.io",
+                    Bio = "9x Microsoft MVP",
+                    Image = "https://balta.io",
+                    PasswordHash = "123098457"
+                };
 
-                //UPDATE
-                // var tag = context.Tags.FirstOrDefault(x => x.Id == 1);
-                // tag.Name = ".Net";
-                // tag.Slug = "dotnet";
-                // context.Update(tag);
-                // context.SaveChanges();
+                var category = new Category { Name = "Backend", Slug = "backend" };
 
-                var tag = context.Tags.FirstOrDefault(x => x.Id == 1);
+                var post = new Post
+                {
+                    Author = user,
+                    Category = category,
+                    Body = "<p>Hello world</p>",
+                    Slug = "comecando-com-ef-core",
+                    Summary = "Neste artigo vamos aprender EF core",
+                    Title = "Começando com EF Core",
+                    CreateDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now,
+                };
 
-                context.Remove(tag);
+                context.Posts.Add(post);
                 context.SaveChanges();
-
-
             }
         }
     }
